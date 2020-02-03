@@ -54,16 +54,22 @@ void myThreadFunc()
 
 int main(int argc, char *argv[])
 {
+	thread myThread[3];
+
 	// At the moment our program is only running one thread (the initial one the operating system gave us).
 
-	thread myThread(myThreadFunc);
+	myThread[0] = thread(myThreadFunc);
+	myThread[1] = thread(producer);
+	myThread[2] = thread(consumer);
 
 	// Now our program is running two threads in parallel (the initial one, and myThread).
 	
 	cout << "I am main\n";
 
 	// Wait for myThread to finish.
-	myThread.join();
+	myThread[0].join();
+	myThread[1].join();
+	myThread[2].join();
 
 	// Now we just have the initial thread. So it's safe to exit.
 
